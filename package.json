@@ -1,0 +1,19 @@
+{
+  "name": "resume-jgcg",
+  "version": "1.0.0",
+  "description": "Gopin Sora Resume - Static HTML Site with Vercel Analytics",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Static site - no build step required'"
+  },
+  "keywords": [
+    "resume",
+    "portfolio",
+    "vercel-analytics"
+  ],
+  "author": "Gopin Sora",
+  "license": "MIT",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
