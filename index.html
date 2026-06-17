@@ -29,12 +29,19 @@
   }
 
   /* ---- Animated background wallpaper ---- */
+  .bg-fallback {
+    position: fixed; inset: 0;
+    background: #0b0f14 url("bgposter.jpg") center center / cover no-repeat;
+    z-index: -3;
+    pointer-events: none;
+  }
   .bg-video {
     position: fixed; inset: 0;
     width: 100vw; height: 100vh;
     object-fit: cover;
     z-index: -2;
     pointer-events: none;
+    will-change: transform;
   }
   .bg-overlay {
     position: fixed; inset: 0;
@@ -149,8 +156,13 @@
   }
 
   /* ---- Print ---- */
+  /* On phones / low-power devices, skip video decode — show the static poster */
+  @media (max-width: 760px), (prefers-reduced-motion: reduce) {
+    .bg-video { display: none; }
+  }
+
   @media print {
-    .bg-video, .bg-overlay { display: none !important; }
+    .bg-video, .bg-overlay, .bg-fallback { display: none !important; }
     body { background: #fff; padding: 0; }
     .sheet { box-shadow: none; border-radius: 0; width: 100%; }
     .proj { break-inside: avoid; }
@@ -167,7 +179,8 @@
 </style>
 </head>
 <body>
-<video class="bg-video" autoplay loop muted playsinline preload="auto">
+<div class="bg-fallback"></div>
+<video class="bg-video" autoplay loop muted playsinline preload="auto" poster="bgposter.jpg">
   <source src="bgvideo.mp4" type="video/mp4" />
 </video>
 <div class="bg-overlay"></div>
@@ -221,7 +234,7 @@
              Three.js hero, glassmorphism UI, Stripe checkout with webhook fulfillment, AI product
              assistant, and a full admin console (products, orders, users, coupons).</p>
           <div class="links">
-            <a href="https://sora-tech-three.vercel.app/" target="_blank" rel="noopener">Live demo</a>
+            <a href="https://sora-tech-three.vercel.app/" target="_blank" rel="noopener">sora-tech-three.vercel.app</a>
             <a class="gh" href="https://github.com/GopinSora/Sora-Tech" target="_blank" rel="noopener">Source</a>
           </div>
         </div>
@@ -238,7 +251,7 @@
              87.9% top-1) plus ASL words &amp; letters, with a live sentence composer. End-to-end ML
              pipeline from data → training → ONNX export → web inference.</p>
           <div class="links">
-            <a href="https://sign-language-neon.vercel.app/" target="_blank" rel="noopener">Live demo</a>
+            <a href="https://sign-language-neon.vercel.app/" target="_blank" rel="noopener">sign-language-neon.vercel.app</a>
             <a class="gh" href="https://github.com/GopinSora/Sign-language" target="_blank" rel="noopener">Source</a>
           </div>
         </div>
@@ -271,7 +284,7 @@
              booking, live tracking, in-app chatbot, wallet, order history, and a partner dashboard.
              Built for both mobile and web.</p>
           <div class="links">
-            <a href="https://home-help-khaki.vercel.app/" target="_blank" rel="noopener">Live demo</a>
+            <a href="https://home-help-khaki.vercel.app/" target="_blank" rel="noopener">home-help-khaki.vercel.app</a>
             <a class="gh" href="https://github.com/GopinSora/Home-help-1" target="_blank" rel="noopener">Source</a>
           </div>
         </div>
@@ -456,7 +469,10 @@
   (function () {
     var v = document.querySelector('.bg-video');
     if (!v) return;
-    var resume = function () { if (v.paused && !document.hidden) v.play().catch(function(){}); };
+    // Skip entirely if the video is hidden (mobile / reduced-motion show the poster)
+    var shown = function () { return getComputedStyle(v).display !== 'none'; };
+    if (!shown()) return;
+    var resume = function () { if (shown() && v.paused && !document.hidden) v.play().catch(function(){}); };
     v.play().catch(function(){});
     v.addEventListener('pause', resume);
     v.addEventListener('ended', function () { v.currentTime = 0; v.play().catch(function(){}); });
