@@ -156,11 +156,6 @@
   }
 
   /* ---- Print ---- */
-  /* On phones / low-power devices, skip video decode — show the static poster */
-  @media (max-width: 760px), (prefers-reduced-motion: reduce) {
-    .bg-video { display: none; }
-  }
-
   @media print {
     .bg-video, .bg-overlay, .bg-fallback { display: none !important; }
     body { background: #fff; padding: 0; }
@@ -241,7 +236,7 @@
       </div>
 
       <div class="proj">
-        <div class="thumb logo"><img src="img/signlang.png" alt="" onerror="this.parentNode.textContent='SIGN LANG'" /></div>
+        <div class="thumb logo"><img src="img/signlang.svg" alt="" onerror="this.parentNode.textContent='SIGN LANG'" /></div>
         <div>
           <div class="proj-head">
             <h3>Sign Language → Text Translator</h3>
@@ -398,6 +393,30 @@
         </div>
       </div>
 
+      <div class="proj">
+        <div class="thumb"><img src="img/autonomous-rc.jpg" alt="" onerror="this.parentNode.textContent='AUTO RC'" /></div>
+        <div>
+          <div class="proj-head">
+            <h3>Autonomous RC Car</h3>
+            <span class="tag">Raspberry Pi Zero 2 W · CV</span>
+          </div>
+          <p>Self-driving RC car built on a Raspberry Pi Zero 2 W with a Pi Camera — computer-vision
+             lane/obstacle handling plus a separate touchscreen control unit for live telemetry.</p>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="thumb"><img src="img/ble-jammer.jpg" alt="" onerror="this.parentNode.textContent='BLE JAMMER'" /></div>
+        <div>
+          <div class="proj-head">
+            <h3>BLE / Bluetooth Jammer</h3>
+            <span class="tag">ESP32 · RF · Security Research</span>
+          </div>
+          <p>Dual-antenna ESP32 build with an OLED menu for Wi-Fi/BLE/BLE-spam testing — a hands-on
+             platform for studying 2.4&nbsp;GHz wireless behaviour and defensive testing on authorized devices.</p>
+        </div>
+      </div>
+
     </section>
 
     <!-- ============ SKILLS + EDUCATION ============ -->
@@ -469,10 +488,7 @@
   (function () {
     var v = document.querySelector('.bg-video');
     if (!v) return;
-    // Skip entirely if the video is hidden (mobile / reduced-motion show the poster)
-    var shown = function () { return getComputedStyle(v).display !== 'none'; };
-    if (!shown()) return;
-    var resume = function () { if (shown() && v.paused && !document.hidden) v.play().catch(function(){}); };
+    var resume = function () { if (v.paused && !document.hidden) v.play().catch(function(){}); };
     v.play().catch(function(){});
     v.addEventListener('pause', resume);
     v.addEventListener('ended', function () { v.currentTime = 0; v.play().catch(function(){}); });
