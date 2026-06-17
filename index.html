@@ -105,7 +105,12 @@
   .card { background: var(--glass-2); border:1px solid var(--border); border-radius: 16px; overflow:hidden;
     display:flex; flex-direction:column; transition:.2s; }
   .card:hover { transform: translateY(-5px); border-color: var(--border-2); box-shadow: 0 16px 40px rgba(0,0,0,.4); }
-  .card-media { height: 168px; background: #0e1320; overflow:hidden; position:relative; }
+  .card-media { display:block; height: 168px; background: #0e1320; overflow:hidden; position:relative; }
+  a.card-media { cursor:pointer; }
+  a.card-media::after { content:"↗"; position:absolute; top:10px; right:12px; z-index:3; font-size:13px;
+    width:24px; height:24px; display:grid; place-items:center; border-radius:8px; color:#fff;
+    background:rgba(8,11,18,.55); border:1px solid var(--border); opacity:0; transform:translateY(-3px); transition:.2s; }
+  .card:hover a.card-media::after { opacity:1; transform:translateY(0); }
   .card-media img { width:100%; height:100%; object-fit: cover; transition: .4s; }
   .card:hover .card-media img { transform: scale(1.06); }
   .card-media.logo { background: #fff; display:grid; place-items:center; padding: 26px; }
@@ -199,7 +204,6 @@
     </nav>
 
     <div class="side-foot">
-      <a class="btn-pdf" href="resume.html"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> PDF / Print version</a>
       <a class="side-mail" href="mailto:gopinsora83@gmail.com">gopinsora83@gmail.com</a>
     </div>
   </aside>
@@ -229,7 +233,7 @@
       <div class="cards">
 
         <article class="card">
-          <div class="card-media logo"><img src="img/sora-robokits.png" alt="Sora RoboKits" /></div>
+          <a class="card-media logo" href="https://sora-tech-three.vercel.app/" target="_blank" rel="noopener"><img src="img/sora-robokits.png" alt="Sora RoboKits" /></a>
           <div class="card-body">
             <h3>Sora RoboKits</h3>
             <div class="tags"><span class="tag">Next.js</span><span class="tag">Flutter</span><span class="tag">Firebase</span><span class="tag">Stripe</span></div>
@@ -242,7 +246,7 @@
         </article>
 
         <article class="card">
-          <div class="card-media logo"><img src="img/signlang.svg" alt="Sign Language" /></div>
+          <a class="card-media logo" href="https://sign-language-neon.vercel.app/" target="_blank" rel="noopener"><img src="img/signlang.svg" alt="Sign Language" /></a>
           <div class="card-body">
             <h3>Sign Language → Text</h3>
             <div class="tags"><span class="tag">PyTorch</span><span class="tag">ONNX</span><span class="tag">MediaPipe</span><span class="tag">Flutter</span></div>
@@ -255,7 +259,7 @@
         </article>
 
         <article class="card">
-          <div class="card-media logo"><img src="img/decoded.ico" alt="Decoded" /></div>
+          <a class="card-media logo" href="https://github.com/GopinSora/Decoded" target="_blank" rel="noopener"><img src="img/decoded.ico" alt="Decoded" /></a>
           <div class="card-body">
             <h3>Decoded</h3>
             <div class="tags"><span class="tag">Next.js 16</span><span class="tag">React 19</span></div>
@@ -267,7 +271,7 @@
         </article>
 
         <article class="card">
-          <div class="card-media logo"><img src="img/home-help.png" alt="Home Help" onerror="this.parentElement.classList.remove('logo');this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#1b2942,#324a73)'" /></div>
+          <a class="card-media logo" href="https://home-help-khaki.vercel.app/" target="_blank" rel="noopener"><img src="img/home-help.png" alt="Home Help" onerror="this.parentElement.classList.remove('logo');this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#1b2942,#324a73)'" /></a>
           <div class="card-body">
             <h3>Home Help</h3>
             <div class="tags"><span class="tag">Flutter</span><span class="tag">Firebase</span></div>
@@ -306,7 +310,7 @@
       <div class="cards">
 
         <article class="card">
-          <div class="card-media"><img src="img/waveshare.jpg" alt="RP2350 firmware" /></div>
+          <a class="card-media" href="https://github.com/GopinSora/waveshare-firmware" target="_blank" rel="noopener"><img src="img/waveshare.jpg" alt="RP2350 firmware" /></a>
           <div class="card-body">
             <h3>RP2350 Touch-AMOLED Firmware</h3>
             <div class="tags"><span class="tag">MicroPython</span><span class="tag">RP2350B</span></div>
