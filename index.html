@@ -1,104 +1,420 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Parsonal Portfolio</title>
-    <link rel="stylesheet" href="style.css" />
-    <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <header class="header">
-      <a href="#home" class="logo">Gopin <span>Sora</span></a>
-      <i class='bx bx-menu' id="menu-icons"></i>
-      <nav class="navbar">
-        <a href="#home" class="active" >Home</a>
-        <a href="#about">About</a>
-        <a href="#Projects">Projects</a>
-        <a href="#contact">Contact</a>
-        <a href="#skills">skills</a>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gopin Sora — Resume</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #1a1d23;
+    --muted: #5b6470;
+    --line: #e2e6ec;
+    --accent: #2563eb;
+    --accent-soft: #eff4ff;
+    --bg: #f4f6f9;
+    --page: 210mm;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+    padding: 28px 12px;
+  }
 
-      </nav>
-    </header>
+  /* ---- Page sheet (A4) ---- */
+  .sheet {
+    width: var(--page);
+    max-width: 100%;
+    margin: 0 auto;
+    background: #fff;
+    box-shadow: 0 10px 40px rgba(20, 30, 50, 0.12);
+    border-radius: 4px;
+    overflow: hidden;
+  }
 
-    <section id="home" class="home">
-      <div class="home-img">
-        <img src="profile.jpg" alt="">
+  /* ---- Header ---- */
+  header {
+    display: flex;
+    gap: 22px;
+    align-items: center;
+    padding: 34px 40px 26px;
+    background: linear-gradient(135deg, #11151c 0%, #1f2a44 100%);
+    color: #fff;
+  }
+  .avatar {
+    flex: 0 0 96px;
+    width: 96px; height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255,255,255,.25);
+    background: #2a3550;
+  }
+  .id h1 { font-size: 30px; font-weight: 700; letter-spacing: -0.5px; }
+  .id .role { color: #9fc0ff; font-weight: 500; font-size: 14.5px; margin-top: 3px; }
+  .id .role b { color: #fff; }
+  .contact {
+    display: flex; flex-wrap: wrap; gap: 6px 18px;
+    margin-top: 12px; font-size: 12.5px;
+  }
+  .contact a, .contact span { color: #d7e0f0; text-decoration: none; }
+  .contact a:hover { color: #fff; }
+
+  /* ---- Layout ---- */
+  .body { display: grid; grid-template-columns: 1fr; }
+  main { padding: 26px 40px 40px; }
+
+  section { margin-bottom: 22px; }
+  .sec-title {
+    font-size: 13px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--accent);
+    display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+  }
+  .sec-title::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+  .summary { font-size: 13.5px; color: #36404c; }
+
+  /* ---- Projects ---- */
+  .proj {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 14px;
+  }
+  .proj:last-child { border-bottom: none; }
+  .thumb {
+    width: 64px; height: 64px; border-radius: 8px;
+    background: var(--accent-soft);
+    border: 1px dashed #b9cdf5;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: #8aa6df; text-align: center; line-height: 1.2;
+    overflow: hidden;
+  }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .proj-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
+  .proj-head h3 { font-size: 14.5px; font-weight: 600; }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px; padding: 2px 7px; border-radius: 20px;
+    background: #f0f2f6; color: var(--muted); font-weight: 500;
+  }
+  .proj p { font-size: 12.5px; color: #475160; margin: 4px 0 6px; }
+  .links { display: flex; flex-wrap: wrap; gap: 14px; font-size: 11.5px; }
+  .links a { color: var(--accent); text-decoration: none; font-weight: 500; }
+  .links a:hover { text-decoration: underline; }
+  .links a::before { content: "↗ "; opacity: .7; }
+  .links a.gh::before { content: "⌥ "; }
+
+  /* ---- Skills / two col ---- */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+  .chip {
+    font-size: 11.5px; padding: 4px 11px; border-radius: 6px;
+    background: #f3f5f9; border: 1px solid var(--line); color: #3a4452;
+  }
+  .skillgroup { margin-bottom: 12px; }
+  .skillgroup h4 { font-size: 11.5px; color: var(--muted); margin-bottom: 7px; font-weight: 600; }
+
+  .edu .item h3 { font-size: 14px; font-weight: 600; }
+  .edu .item .meta { font-size: 12px; color: var(--muted); }
+
+  footer.note {
+    text-align: center; font-size: 11px; color: #9aa3af;
+    padding: 14px; border-top: 1px solid var(--line);
+  }
+
+  /* ---- Print ---- */
+  @media print {
+    body { background: #fff; padding: 0; }
+    .sheet { box-shadow: none; border-radius: 0; width: 100%; }
+    .proj { break-inside: avoid; }
+    section { break-inside: avoid; }
+  }
+  @page { size: A4; margin: 0; }
+
+  @media (max-width: 640px) {
+    header { flex-direction: column; text-align: center; }
+    .contact { justify-content: center; }
+    main { padding: 22px; }
+    .grid2 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <!-- ============ HEADER ============ -->
+  <header>
+    <!-- Replace src with your photo (e.g. profile.jpg) -->
+    <img class="avatar" src="profile.jpg" alt="Gopin Sora"
+         onerror="this.style.background='#2a3550';this.removeAttribute('src');" />
+    <div class="id">
+      <h1>Gopin Sora</h1>
+      <div class="role">Software Developer &nbsp;·&nbsp; <b>Full-Stack &amp; Embedded Systems</b></div>
+      <div class="contact">
+        <a href="mailto:gopinsora83@gmail.com">gopinsora83@gmail.com</a>
+        <!-- TODO: add phone / city -->
+        <a href="https://github.com/GopinSora" target="_blank" rel="noopener">github.com/GopinSora</a>
+        <a href="https://www.linkedin.com/in/gopin-sora-a5072525a/" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://x.com/GopinSoraBogum" target="_blank" rel="noopener">X / Twitter</a>
+        <a href="https://www.instagram.com/gopin_sora" target="_blank" rel="noopener">Instagram</a>
       </div>
+    </div>
+  </header>
 
-      <div class="home-content">
-        <h1>Hi, It's <span>Gopin Sora</span></h1>
-        <h3 class="text-animation">I'm a <span></span></h3>
-        <p></p>
-        <div class="social-icons">
-          <a href="https://www.linkedin.com/in/gopin-sora-a5072525a/" class='bx bxl-linkedin-square'></i></a>
-          <a href="https://github.com/GopinSora" class='bx bxl-github' > </i></a>
-          <a href="https://x.com/GopinSoraBogum" class='bx bxl-twitter' ></i></a>
-          <a href="https://www.instagram.com/gopin_sora?igsh=MTc0YjM3d3o3dWVobA%3D%3D&utm_source=qr" class='bx bxl-instagram' ></i></a>
-        </div>
-        <a href="#" class="btn">Hire Me</a>
-      </div>
+  <div class="body">
+  <main>
+
+    <!-- ============ SUMMARY ============ -->
+    <section>
+      <div class="sec-title">Profile</div>
+      <p class="summary">
+        Master of Computer Applications (MCA) graduate and hands-on builder across the full stack —
+        from production Next.js web apps and Flutter mobile apps to on-device machine learning and
+        custom embedded firmware. I ship end-to-end: design, code, train models, flash hardware, and deploy.
+      </p>
     </section>
 
-    <section id="about" class="about">
-      <div class="about-content">
-        <h2 class="heading">About <span>Me</span></h2>
-        <p>Hi my name is Gopin Sora, and i have done my degreee on master in computer application </p>
-        <a href="#" class="btn">Read more</a>
-      </div>
+    <!-- ============ SOFTWARE PROJECTS ============ -->
+    <section>
+      <div class="sec-title">Software &amp; Web Projects</div>
 
-      <div class="about-img">
-        <img src="logo.png" alt="">
-      </div>
-    </section>
- <section class="Projects" id="projects">
-      <h2 class="heading">Projects</h2>
-      <div class="Projects-content">
-        <div class="Projects-box">
-          <div class="Projects-info">
-            <h4>made </h4>
-            <section class="skills" id="skills">
-                <h2 class="heading">skills</h2>
-                <div class="skills-content">
-                  <div class="skills-box">
-                    <div class="skills-info">
-                      <h4>c++</h4>
-    <section class="contact" id="contact">
-      <h2 class="heading">Contact <span>Me</span></h2>
-      <form action="">
-        <div class="input-box">
-          <input type="text" placeholder="Full Name">
-          <input type="email" placeholder="Email">
+      <div class="proj">
+        <div class="thumb"><img src="img/sora-robokits.png" alt="" onerror="this.parentNode.textContent='SORA ROBOKITS'" /></div>
+        <div>
+          <div class="proj-head">
+            <h3>Sora RoboKits</h3>
+            <span class="tag">Next.js · Firebase · Stripe</span>
+          </div>
+          <p>Production-grade e-commerce platform for robotics, electronics &amp; 3D-printed products.
+             Three.js hero, glassmorphism UI, Stripe checkout with webhook fulfillment, AI product
+             assistant, and a full admin console (products, orders, users, coupons).</p>
+          <div class="links">
+            <a href="https://sora-tech-sigma.vercel.app" target="_blank" rel="noopener">Live demo</a>
+            <a class="gh" href="https://github.com/GopinSora/Sora-Tech" target="_blank" rel="noopener">Source</a>
+          </div>
         </div>
-        <div class="input-box">
-          <input type="number" placeholder="Phone Number">
-          <input type="text" placeholder="Subject">
-        </div>
-
-        <textarea name="" id="" cols="30" rows="10" placeholder="Your Message"></textarea>
-        <input type="submit" value="Send Message" class="btn">
-      </form>
-    </section>
-
-    <footer class="footer">
-      <div class="social">
-        <a href="#"><i class='bx bxl-linkedin-square' ></i></a>
-        <a href="#"><i class='bx bxl-github' ></i></a>
-        <a href="#"><i class='bx bxl-twitter' ></i></a>
-        <a href="#"><i class='bx bxl-instagram' ></i></a>
       </div>
 
-      <ul>
-        <li><a href="#">FAQ</a></li>
-        <li><a href="#">About Me</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-      <p class="copyright">@Gopin sora | All Rights Reserved</p>
-    </footer>
+      <div class="proj">
+        <div class="thumb"><img src="img/signlang.png" alt="" onerror="this.parentNode.textContent='SIGN LANG'" /></div>
+        <div>
+          <div class="proj-head">
+            <h3>Sign Language → Text Translator</h3>
+            <span class="tag">PyTorch · ONNX · MediaPipe</span>
+          </div>
+          <p>Real-time sign-language recognition that runs in the browser. Trained ISL model (273 signs,
+             87.9% top-1) plus ASL words &amp; letters, with a live sentence composer. End-to-end ML
+             pipeline from data → training → ONNX export → web inference.</p>
+          <div class="links">
+            <a href="https://sign-language-three-omega.vercel.app" target="_blank" rel="noopener">Live demo</a>
+            <a class="gh" href="https://github.com/GopinSora/Sign-language" target="_blank" rel="noopener">Source</a>
+          </div>
+        </div>
+      </div>
 
-    <script src="main.js"></script>
-  </body>
+      <div class="proj">
+        <div class="thumb"><img src="img/decoded.png" alt="" onerror="this.parentNode.textContent='DECODED'" /></div>
+        <div>
+          <div class="proj-head">
+            <h3>Decoded</h3>
+            <span class="tag">Next.js 16 · React 19</span>
+          </div>
+          <p>Retro CRT-themed discussion board for makers and researchers, with channel-based threads,
+             image uploads, live search, and an "unsolved file" archive of famous ciphers
+             (Kryptos K4, Cicada 3301, Voynich, Beale).</p>
+          <div class="links">
+            <a href="https://github.com/GopinSora/Decoded" target="_blank" rel="noopener">Source (Vercel)</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="thumb"><img src="img/home-help.png" alt="" onerror="this.parentNode.textContent='HOME HELP'" /></div>
+        <div>
+          <div class="proj-head">
+            <h3>Home Help</h3>
+            <span class="tag">Flutter · Firebase</span>
+          </div>
+          <p>On-demand home-services app (cleaners, electricians, plumbers and more) with service
+             booking, live tracking, in-app chatbot, wallet, order history, and a partner dashboard.
+             Built for both mobile and web.</p>
+          <div class="links">
+            <a class="gh" href="https://github.com/GopinSora/Home-help-1" target="_blank" rel="noopener">Source</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="thumb"><img src="img/inventory.png" alt="" onerror="this.parentNode.textContent='INVENTORY'" /></div>
+        <div>
+          <div class="proj-head">
+            <h3>Smart Inventory System</h3>
+            <span class="tag">React · Vite · Tailwind</span>
+          </div>
+          <p>Inventory-management dashboard for tracking stock, items, and movements with a clean,
+             responsive UI.</p>
+          <!-- TODO: add repo / live link -->
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="thumb"><img src="img/dilp.png" alt="" onerror="this.parentNode.textContent='DIGITAL ILP'" /></div>
+        <div>
+          <div class="proj-head">
+            <h3>Digital ILP</h3>
+            <span class="tag">Flutter · Admin Web</span>
+          </div>
+          <p>Digital Individual Learning Plan — a learner-progress platform with a Flutter app and a
+             companion admin web panel.</p>
+          <!-- TODO: add repo / live link -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============ HARDWARE PROJECTS ============ -->
+    <section>
+      <div class="sec-title">Hardware &amp; Embedded Projects</div>
+
+      <div class="proj">
+        <div class="thumb"><img src="img/waveshare.jpg" alt="" onerror="this.parentNode.textContent='RP2350 AMOLED'" /></div>
+        <div>
+          <div class="proj-head">
+            <h3>RP2350 Touch-AMOLED Handheld Firmware</h3>
+            <span class="tag">MicroPython · RP2350B</span>
+          </div>
+          <p>Custom firmware for a Waveshare RP2350 3.49" AMOLED touch board: music player (MP3/WAV with
+             visualizer), games, voice recorder, clock/alarm, PC-monitor and IMU auto-rotate — including
+             a custom C MP3 decoder module and board definition.</p>
+          <div class="links">
+            <a class="gh" href="https://github.com/GopinSora/waveshare-firmware" target="_blank" rel="noopener">Source</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="thumb"><img src="img/plant.jpg" alt="" onerror="this.parentNode.textContent='PLANT MONITOR'" /></div>
+        <div>
+          <div class="proj-head">
+            <h3>Plant Monitoring System</h3>
+            <span class="tag">ESP32-CAM · IoT</span>
+          </div>
+          <p>Remote plant-health monitoring using an ESP32-CAM with environmental sensors, streaming
+             live imagery and readings for tracking growth and watering.</p>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="thumb"><img src="img/marauder.jpg" alt="" onerror="this.parentNode.textContent='ESP32 MARAUDER'" /></div>
+        <div>
+          <div class="proj-head">
+            <h3>ESP32 Marauder</h3>
+            <span class="tag">ESP32 · Security Research</span>
+          </div>
+          <p>Built and deployed an ESP32 Marauder — a Wi-Fi/Bluetooth analysis and security-research
+             device — to learn wireless protocols and defensive testing on authorized networks.</p>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="thumb"><img src="img/bruce.jpg" alt="" onerror="this.parentNode.textContent='ESP BRUCE'" /></div>
+        <div>
+          <div class="proj-head">
+            <h3>ESP Bruce Multi-Tool</h3>
+            <span class="tag">ESP32 · Firmware</span>
+          </div>
+          <p>Flashed and configured the Bruce multi-tool firmware on ESP32 hardware as a hands-on
+             platform for exploring IR, RF, NFC and Wi-Fi in a security-research context.</p>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="thumb"><img src="img/rf.jpg" alt="" onerror="this.parentNode.textContent='RF CLASSIFY'" /></div>
+        <div>
+          <div class="proj-head">
+            <h3>Radio-Frequency Signal Classification</h3>
+            <span class="tag">ESP32-S3 · TinyML</span>
+          </div>
+          <p>On-device machine learning on the ESP32-S3 to capture and classify radio-frequency signals
+             — combining embedded DSP with an edge-ML inference model.</p>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="thumb"><img src="img/battlebot.jpg" alt="" onerror="this.parentNode.textContent='BATTLE BOT'" /></div>
+        <div>
+          <div class="proj-head">
+            <h3>8&nbsp;kg Battle Bot</h3>
+            <span class="tag">Robotics · Mechatronics</span>
+          </div>
+          <p>Designed and built an 8&nbsp;kg-class combat robot — drive train, weapon system, power and
+             radio control — covering mechanical design, electronics and tuning.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============ SKILLS + EDUCATION ============ -->
+    <div class="grid2">
+      <section>
+        <div class="sec-title">Skills</div>
+        <div class="skillgroup">
+          <h4>Languages</h4>
+          <div class="chips">
+            <span class="chip">C++</span><span class="chip">Python</span>
+            <span class="chip">JavaScript</span><span class="chip">TypeScript</span>
+            <span class="chip">Dart</span>
+          </div>
+        </div>
+        <div class="skillgroup">
+          <h4>Web &amp; Mobile</h4>
+          <div class="chips">
+            <span class="chip">Next.js</span><span class="chip">React</span>
+            <span class="chip">Flutter</span><span class="chip">Tailwind CSS</span>
+            <span class="chip">Three.js</span><span class="chip">Firebase</span>
+          </div>
+        </div>
+        <div class="skillgroup">
+          <h4>ML &amp; Embedded</h4>
+          <div class="chips">
+            <span class="chip">PyTorch</span><span class="chip">ONNX</span>
+            <span class="chip">MediaPipe</span><span class="chip">ESP32 / ESP32-S3</span>
+            <span class="chip">RP2350</span><span class="chip">MicroPython</span>
+            <span class="chip">Arduino</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="edu">
+        <div class="sec-title">Education</div>
+        <div class="item">
+          <h3>Master of Computer Applications (MCA)</h3>
+          <div class="meta">Computer Applications</div>
+          <!-- TODO: add university name + years -->
+        </div>
+        <div class="sec-title" style="margin-top:18px">Interests</div>
+        <div class="chips">
+          <span class="chip">IoT &amp; Robotics</span>
+          <span class="chip">Edge / On-device ML</span>
+          <span class="chip">Security Research</span>
+          <span class="chip">3D Design &amp; Printing</span>
+        </div>
+      </section>
+    </div>
+
+  </main>
+  </div>
+
+  <footer class="note">
+    Tip: open in a browser and press <b>Ctrl/Cmd&nbsp;+&nbsp;P → Save as PDF</b> for a clean export.
+  </footer>
+</div>
+</body>
 </html>
