@@ -28,6 +28,21 @@
     padding: 28px 12px;
   }
 
+  /* ---- Animated background wallpaper ---- */
+  .bg-video {
+    position: fixed; inset: 0;
+    width: 100vw; height: 100vh;
+    object-fit: cover;
+    z-index: -2;
+    pointer-events: none;
+  }
+  .bg-overlay {
+    position: fixed; inset: 0;
+    background: linear-gradient(rgba(8,11,18,.55), rgba(8,11,18,.62));
+    z-index: -1;
+    pointer-events: none;
+  }
+
   /* ---- Page sheet (A4) ---- */
   .sheet {
     width: var(--page);
@@ -135,6 +150,7 @@
 
   /* ---- Print ---- */
   @media print {
+    .bg-video, .bg-overlay { display: none !important; }
     body { background: #fff; padding: 0; }
     .sheet { box-shadow: none; border-radius: 0; width: 100%; }
     .proj { break-inside: avoid; }
@@ -151,6 +167,11 @@
 </style>
 </head>
 <body>
+<video class="bg-video" autoplay loop muted playsinline preload="auto">
+  <source src="bgvideo.mp4" type="video/mp4" />
+</video>
+<div class="bg-overlay"></div>
+
 <div class="sheet">
 
   <!-- ============ HEADER ============ -->
@@ -428,5 +449,19 @@
     Tip: open in a browser and press <b>Ctrl/Cmd&nbsp;+&nbsp;P → Save as PDF</b> for a clean export.
   </footer>
 </div>
+
+<script>
+  // Keep the background wallpaper looping smoothly and never paused.
+  (function () {
+    var v = document.querySelector('.bg-video');
+    if (!v) return;
+    var resume = function () { if (v.paused && !document.hidden) v.play().catch(function(){}); };
+    v.play().catch(function(){});
+    v.addEventListener('pause', resume);
+    v.addEventListener('ended', function () { v.currentTime = 0; v.play().catch(function(){}); });
+    document.addEventListener('visibilitychange', resume);
+    window.addEventListener('pageshow', resume);
+  })();
+</script>
 </body>
 </html>
